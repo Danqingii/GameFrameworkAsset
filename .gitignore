@@ -6,6 +6,7 @@
 /Assets/AssetStoreTools*
 /.vs/
 /.idea/
+/Logs/
 
 *.csproj
 *.unityproj
@@ -24,7 +25,4 @@
 /Packages/*
 /UnityPackageManager/*
 .vsconfig
-Logs/AssetImportWorker0-prev.log
-Logs/AssetImportWorker1-prev.log
-Logs/Packages-Update.log
-Logs/shadercompiler-UnityShaderCompiler.exe0.log
+

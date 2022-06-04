@@ -1,0 +1,16 @@
+{
+    "name": "GameFrameworkAsset.Runtime",
+    "rootNamespace": "",
+    "references": [
+        "GUID:a3b9f7ec1a251914e8cd21614973b5a1"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
