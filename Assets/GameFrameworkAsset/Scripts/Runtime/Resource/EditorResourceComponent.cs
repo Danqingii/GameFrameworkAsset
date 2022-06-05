@@ -558,7 +558,7 @@ namespace UnityGameFramework.Runtime
             BaseComponent baseComponent = GetComponent<BaseComponent>();
             if (baseComponent == null)
             {
-                Log.Error("Can not find base component.");
+                Debug.LogError("Can not find base component.");
                 return;
             }
 
@@ -719,7 +719,7 @@ namespace UnityGameFramework.Runtime
         {
             if (string.IsNullOrEmpty(readOnlyPath))
             {
-                Log.Error("Read-only path is invalid.");
+                Debug.LogError("Read-only path is invalid.");
                 return;
             }
 
@@ -734,7 +734,7 @@ namespace UnityGameFramework.Runtime
         {
             if (string.IsNullOrEmpty(readWritePath))
             {
-                Log.Error("Read-write path is invalid.");
+                Debug.LogError("Read-write path is invalid.");
                 return;
             }
 
@@ -1045,7 +1045,7 @@ namespace UnityGameFramework.Runtime
         {
             if (loadAssetCallbacks == null)
             {
-                Log.Error("Load asset callbacks is invalid.");
+                Debug.LogError("Load asset callbacks is invalid.");
                 return;
             }
 
@@ -1063,7 +1063,7 @@ namespace UnityGameFramework.Runtime
             {
                 if (loadAssetCallbacks.LoadAssetFailureCallback != null)
                 {
-                    loadAssetCallbacks.LoadAssetFailureCallback(assetName, LoadResourceStatus.NotExist, Utility.Text.Format("Asset name '{0}' is invalid.", assetName), userData);
+                    loadAssetCallbacks.LoadAssetFailureCallback(assetName, LoadResourceStatus.NotExist, $"Asset name '{assetName}' is invalid.", userData);
                 }
 
                 return;
@@ -1073,7 +1073,7 @@ namespace UnityGameFramework.Runtime
             {
                 if (loadAssetCallbacks.LoadAssetFailureCallback != null)
                 {
-                    loadAssetCallbacks.LoadAssetFailureCallback(assetName, LoadResourceStatus.NotExist, Utility.Text.Format("Asset '{0}' is not exist.", assetName), userData);
+                    loadAssetCallbacks.LoadAssetFailureCallback(assetName, LoadResourceStatus.NotExist, $"Asset '{assetName}' is not exist.", userData);
                 }
 
                 return;
@@ -1134,7 +1134,7 @@ namespace UnityGameFramework.Runtime
         {
             if (loadSceneCallbacks == null)
             {
-                Log.Error("Load scene callbacks is invalid.");
+                Debug.LogError("Load scene callbacks is invalid.");
                 return;
             }
 
@@ -1152,7 +1152,7 @@ namespace UnityGameFramework.Runtime
             {
                 if (loadSceneCallbacks.LoadSceneFailureCallback != null)
                 {
-                    loadSceneCallbacks.LoadSceneFailureCallback(sceneAssetName, LoadResourceStatus.NotExist, Utility.Text.Format("Scene asset name '{0}' is invalid.", sceneAssetName), userData);
+                    loadSceneCallbacks.LoadSceneFailureCallback(sceneAssetName, LoadResourceStatus.NotExist, $"Scene asset name '{sceneAssetName}' is invalid.", userData);
                 }
 
                 return;
@@ -1162,7 +1162,7 @@ namespace UnityGameFramework.Runtime
             {
                 if (loadSceneCallbacks.LoadSceneFailureCallback != null)
                 {
-                    loadSceneCallbacks.LoadSceneFailureCallback(sceneAssetName, LoadResourceStatus.NotExist, Utility.Text.Format("Scene '{0}' is not exist.", sceneAssetName), userData);
+                    loadSceneCallbacks.LoadSceneFailureCallback(sceneAssetName, LoadResourceStatus.NotExist, $"Scene '{sceneAssetName}' is not exist.", userData);
                 }
 
                 return;
@@ -1201,25 +1201,25 @@ namespace UnityGameFramework.Runtime
         {
             if (string.IsNullOrEmpty(sceneAssetName))
             {
-                Log.Error("Scene asset name is invalid.");
+                Debug.LogError("Scene asset name is invalid.");
                 return;
             }
 
             if (!sceneAssetName.StartsWith("Assets/", StringComparison.Ordinal) || !sceneAssetName.EndsWith(".unity", StringComparison.Ordinal))
             {
-                Log.Error("Scene asset name '{0}' is invalid.", sceneAssetName);
+                Debug.LogError($"Scene asset name '{sceneAssetName}' is invalid.");
                 return;
             }
 
             if (unloadSceneCallbacks == null)
             {
-                Log.Error("Unload scene callbacks is invalid.");
+                Debug.LogError("Unload scene callbacks is invalid.");
                 return;
             }
 
             if (!HasFile(sceneAssetName))
             {
-                Log.Error("Scene '{0}' is not exist.", sceneAssetName);
+                Debug.LogError($"Scene '{sceneAssetName}' is not exist.");
                 return;
             }
 
@@ -1315,7 +1315,7 @@ namespace UnityGameFramework.Runtime
         {
             if (loadBinaryCallbacks == null)
             {
-                Log.Error("Load binary callbacks is invalid.");
+                Debug.LogError("Load binary callbacks is invalid.");
                 return;
             }
 
@@ -1333,7 +1333,7 @@ namespace UnityGameFramework.Runtime
             {
                 if (loadBinaryCallbacks.LoadBinaryFailureCallback != null)
                 {
-                    loadBinaryCallbacks.LoadBinaryFailureCallback(binaryAssetName, LoadResourceStatus.NotExist, Utility.Text.Format("Binary asset name '{0}' is invalid.", binaryAssetName), userData);
+                    loadBinaryCallbacks.LoadBinaryFailureCallback(binaryAssetName, LoadResourceStatus.NotExist, $"Binary asset name '{binaryAssetName}' is invalid.", userData);
                 }
 
                 return;
@@ -1344,7 +1344,7 @@ namespace UnityGameFramework.Runtime
             {
                 if (loadBinaryCallbacks.LoadBinaryFailureCallback != null)
                 {
-                    loadBinaryCallbacks.LoadBinaryFailureCallback(binaryAssetName, LoadResourceStatus.NotExist, Utility.Text.Format("Binary asset '{0}' is not exist.", binaryAssetName), userData);
+                    loadBinaryCallbacks.LoadBinaryFailureCallback(binaryAssetName, LoadResourceStatus.NotExist, $"Binary asset '{binaryAssetName}' is not exist.", userData);
                 }
 
                 return;
@@ -1622,7 +1622,7 @@ namespace UnityGameFramework.Runtime
             {
                 if (assetFullName.ToLowerInvariant() == fileFullName.ToLowerInvariant())
                 {
-                    Log.Warning("The real path of the specific asset '{0}' is '{1}'. Check the case of letters in the path.", assetName, "Assets" + fileFullName.Substring(Application.dataPath.Length));
+                    Debug.LogWarning($"The real path of the specific asset '{assetName}' is '{("Assets" + fileFullName.Substring(Application.dataPath.Length))}'. Check the case of letters in the path.");
                 }
 
                 return false;

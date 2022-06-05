@@ -20,7 +20,7 @@ namespace UnityGameFramework.Runtime
     /// 资源组件。
     /// </summary>
     [DisallowMultipleComponent]
-    [AddComponentMenu("Game Framework/Resource")]
+    [AddComponentMenu("GameFramework Asset/Resource")]
     public sealed class ResourceComponent : GameFrameworkComponent
     {
         private const int DefaultPriority = 0;
@@ -593,14 +593,14 @@ namespace UnityGameFramework.Runtime
             BaseComponent baseComponent = GameEntry.GetComponent<BaseComponent>();
             if (baseComponent == null)
             {
-                Log.Fatal("Base component is invalid.");
+                Debug.LogError("Base component is invalid.");
                 return;
             }
 
             m_EventComponent = GameEntry.GetComponent<EventComponent>();
             if (m_EventComponent == null)
             {
-                Log.Fatal("Event component is invalid.");
+                Debug.LogError("Event component is invalid.");
                 return;
             }
 
@@ -608,7 +608,7 @@ namespace UnityGameFramework.Runtime
             m_ResourceManager = m_EditorResourceMode ? baseComponent.EditorResourceHelper : GameFrameworkEntry.GetModule<IResourceManager>();
             if (m_ResourceManager == null)
             {
-                Log.Fatal("Resource manager is invalid.");
+                Debug.LogError("Resource manager is invalid.");
                 return;
             }
 
@@ -663,10 +663,10 @@ namespace UnityGameFramework.Runtime
                 m_ResourceManager.UpdateRetryCount = m_UpdateRetryCount;
             }
 
-            m_ResourceHelper = Helper.CreateHelper(m_ResourceHelperTypeName, m_CustomResourceHelper);
+            m_ResourceHelper = GameObjectHelper.CreateHelper(m_ResourceHelperTypeName, m_CustomResourceHelper);
             if (m_ResourceHelper == null)
             {
-                Log.Error("Can not create resource helper.");
+                Debug.LogError("Can not create resource helper.");
                 return;
             }
 
@@ -695,7 +695,7 @@ namespace UnityGameFramework.Runtime
             m_LastUnloadUnusedAssetsOperationElapseSeconds += Time.unscaledDeltaTime;
             if (m_AsyncOperation == null && (m_ForceUnloadUnusedAssets || m_LastUnloadUnusedAssetsOperationElapseSeconds >= m_MaxUnloadUnusedAssetsInterval || m_PreorderUnloadUnusedAssets && m_LastUnloadUnusedAssetsOperationElapseSeconds >= m_MinUnloadUnusedAssetsInterval))
             {
-                Log.Info("Unload unused assets...");
+                Debug.Log("Unload unused assets...");
                 m_ForceUnloadUnusedAssets = false;
                 m_PreorderUnloadUnusedAssets = false;
                 m_LastUnloadUnusedAssetsOperationElapseSeconds = 0f;
@@ -707,7 +707,7 @@ namespace UnityGameFramework.Runtime
                 m_AsyncOperation = null;
                 if (m_PerformGCCollect)
                 {
-                    Log.Info("GC.Collect...");
+                    Debug.Log("GC.Collect...");
                     m_PerformGCCollect = false;
                     GC.Collect();
                 }
@@ -1037,13 +1037,13 @@ namespace UnityGameFramework.Runtime
         {
             if (string.IsNullOrEmpty(assetName))
             {
-                Log.Error("Asset name is invalid.");
+                Debug.LogError("Asset name is invalid.");
                 return;
             }
 
             if (!assetName.StartsWith("Assets/", StringComparison.Ordinal))
             {
-                Log.Error("Asset name '{0}' is invalid.", assetName);
+                Debug.LogError($"Asset name '{assetName}' is invalid.");
                 return;
             }
 
@@ -1114,13 +1114,13 @@ namespace UnityGameFramework.Runtime
         {
             if (string.IsNullOrEmpty(binaryAssetName))
             {
-                Log.Error("Binary asset name is invalid.");
+                Debug.LogError("Binary asset name is invalid.");
                 return;
             }
 
             if (!binaryAssetName.StartsWith("Assets/", StringComparison.Ordinal))
             {
-                Log.Error("Binary asset name '{0}' is invalid.", binaryAssetName);
+                Debug.LogError($"Binary asset name '{binaryAssetName}' is invalid.");
                 return;
             }
 
@@ -1136,13 +1136,13 @@ namespace UnityGameFramework.Runtime
         {
             if (string.IsNullOrEmpty(binaryAssetName))
             {
-                Log.Error("Binary asset name is invalid.");
+                Debug.LogError("Binary asset name is invalid.");
                 return null;
             }
 
             if (!binaryAssetName.StartsWith("Assets/", StringComparison.Ordinal))
             {
-                Log.Error("Binary asset name '{0}' is invalid.", binaryAssetName);
+                Debug.LogError($"Binary asset name '{binaryAssetName}' is invalid.");
                 return null;
             }
 
@@ -1159,7 +1159,7 @@ namespace UnityGameFramework.Runtime
         {
             if (buffer == null)
             {
-                Log.Error("Buffer is invalid.");
+                Debug.LogError("Buffer is invalid.");
                 return 0;
             }
 
@@ -1177,7 +1177,7 @@ namespace UnityGameFramework.Runtime
         {
             if (buffer == null)
             {
-                Log.Error("Buffer is invalid.");
+                Debug.LogError("Buffer is invalid.");
                 return 0;
             }
 
@@ -1196,19 +1196,19 @@ namespace UnityGameFramework.Runtime
         {
             if (string.IsNullOrEmpty(binaryAssetName))
             {
-                Log.Error("Binary asset name is invalid.");
+                Debug.LogError("Binary asset name is invalid.");
                 return 0;
             }
 
             if (!binaryAssetName.StartsWith("Assets/", StringComparison.Ordinal))
             {
-                Log.Error("Binary asset name '{0}' is invalid.", binaryAssetName);
+                Debug.LogError($"Binary asset name '{binaryAssetName}' is invalid.");
                 return 0;
             }
 
             if (buffer == null)
             {
-                Log.Error("Buffer is invalid.");
+                Debug.LogError("Buffer is invalid.");
                 return 0;
             }
 
@@ -1237,13 +1237,13 @@ namespace UnityGameFramework.Runtime
         {
             if (string.IsNullOrEmpty(binaryAssetName))
             {
-                Log.Error("Binary asset name is invalid.");
+                Debug.LogError("Binary asset name is invalid.");
                 return null;
             }
 
             if (!binaryAssetName.StartsWith("Assets/", StringComparison.Ordinal))
             {
-                Log.Error("Binary asset name '{0}' is invalid.", binaryAssetName);
+                Debug.LogError($"Binary asset name '{binaryAssetName}' is invalid.");
                 return null;
             }
 
@@ -1260,7 +1260,7 @@ namespace UnityGameFramework.Runtime
         {
             if (buffer == null)
             {
-                Log.Error("Buffer is invalid.");
+                Debug.LogError("Buffer is invalid.");
                 return 0;
             }
 
@@ -1303,7 +1303,7 @@ namespace UnityGameFramework.Runtime
         {
             if (buffer == null)
             {
-                Log.Error("Buffer is invalid.");
+                Debug.LogError("Buffer is invalid.");
                 return 0;
             }
 
@@ -1336,19 +1336,19 @@ namespace UnityGameFramework.Runtime
         {
             if (string.IsNullOrEmpty(binaryAssetName))
             {
-                Log.Error("Binary asset name is invalid.");
+                Debug.LogError("Binary asset name is invalid.");
                 return 0;
             }
 
             if (!binaryAssetName.StartsWith("Assets/", StringComparison.Ordinal))
             {
-                Log.Error("Binary asset name '{0}' is invalid.", binaryAssetName);
+                Debug.LogError($"Binary asset name '{binaryAssetName}' is invalid.");
                 return 0;
             }
 
             if (buffer == null)
             {
-                Log.Error("Buffer is invalid.");
+                Debug.LogError("Buffer is invalid.");
                 return 0;
             }
 
@@ -1428,14 +1428,14 @@ namespace UnityGameFramework.Runtime
         /// <param name="index">加载资源代理辅助器索引。</param>
         private void AddLoadResourceAgentHelper(int index)
         {
-            LoadResourceAgentHelperBase loadResourceAgentHelper = Helper.CreateHelper(m_LoadResourceAgentHelperTypeName, m_CustomLoadResourceAgentHelper, index);
+            LoadResourceAgentHelperBase loadResourceAgentHelper = GameObjectHelper.CreateHelper(m_LoadResourceAgentHelperTypeName, m_CustomLoadResourceAgentHelper, index);
             if (loadResourceAgentHelper == null)
             {
-                Log.Error("Can not create load resource agent helper.");
+                Debug.LogError("Can not create load resource agent helper.");
                 return;
             }
 
-            loadResourceAgentHelper.name = Utility.Text.Format("Load Resource Agent Helper - {0}", index);
+            loadResourceAgentHelper.name = $"Load Resource Agent Helper - {index}";
             Transform transform = loadResourceAgentHelper.transform;
             transform.SetParent(m_InstanceRoot);
             transform.localScale = Vector3.one;

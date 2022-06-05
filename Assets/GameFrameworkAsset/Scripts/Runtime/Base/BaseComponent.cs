@@ -56,16 +56,9 @@ namespace UnityGameFramework.Runtime
         {
             base.Awake();
 
-            InitTextHelper();
             InitVersionHelper();
-            InitLogHelper();
-            Log.Info("Game Framework Version: {0}", GameFramework.Version.GameFrameworkVersion);
-            Log.Info("Game Version: {0} ({1})", GameFramework.Version.GameVersion, GameFramework.Version.InternalGameVersion);
-            Log.Info("Unity Version: {0}", Application.unityVersion);
 
-#if UNITY_5_3_OR_NEWER || UNITY_5_3
             InitCompressionHelper();
-            InitJsonHelper();
 
             Utility.Converter.ScreenDpi = Screen.dpi;
             if (Utility.Converter.ScreenDpi <= 0)
@@ -76,26 +69,11 @@ namespace UnityGameFramework.Runtime
             m_EditorResourceMode &= Application.isEditor;
             if (m_EditorResourceMode)
             {
-                Log.Info("During this run, Game Framework will use editor resource files, which you should validate first.");
+                Debug.Log("During this run, Game Framework will use editor resource files, which you should validate first.");
             }
-
-            Application.targetFrameRate = m_FrameRate;
-            Time.timeScale = m_GameSpeed;
-            Application.runInBackground = m_RunInBackground;
-            Screen.sleepTimeout = m_NeverSleep ? SleepTimeout.NeverSleep : SleepTimeout.SystemSetting;
-#else
-            Log.Error("Game Framework only applies with Unity 5.3 and above, but current Unity version is {0}.", Application.unityVersion);
-            GameEntry.Shutdown(ShutdownType.Quit);
-#endif
-#if UNITY_5_6_OR_NEWER
+            
             Application.lowMemory += OnLowMemory;
-#endif
         }
-
-        private void Start()
-        {
-        }
-
         private void Update()
         {
             GameFrameworkEntry.Update(Time.deltaTime, Time.unscaledDeltaTime);
@@ -106,7 +84,6 @@ namespace UnityGameFramework.Runtime
             StopAllCoroutines();
         }
 
-    
         internal void Shutdown()
         {
             Destroy(gameObject);
@@ -122,13 +99,13 @@ namespace UnityGameFramework.Runtime
             Type versionHelperType = Utility.Assembly.GetType(m_VersionHelperTypeName);
             if (versionHelperType == null)
             {
-                throw new GameFrameworkException(Utility.Text.Format("Can not find version helper type '{0}'.", m_VersionHelperTypeName));
+                throw new GameFrameworkException($"Can not find version helper type '{m_VersionHelperTypeName}'.");
             }
 
             GameFramework.Version.IVersionHelper versionHelper = (GameFramework.Version.IVersionHelper)Activator.CreateInstance(versionHelperType);
             if (versionHelper == null)
             {
-                throw new GameFrameworkException(Utility.Text.Format("Can not create version helper instance '{0}'.", m_VersionHelperTypeName));
+                throw new GameFrameworkException($"Can not create version helper instance '{m_VersionHelperTypeName}'.");
             }
 
             GameFramework.Version.SetVersionHelper(versionHelper);
@@ -144,14 +121,14 @@ namespace UnityGameFramework.Runtime
             Type compressionHelperType = Utility.Assembly.GetType(m_CompressionHelperTypeName);
             if (compressionHelperType == null)
             {
-                Log.Error("Can not find compression helper type '{0}'.", m_CompressionHelperTypeName);
+                Debug.LogError($"Can not find compression helper type '{m_CompressionHelperTypeName}'.");
                 return;
             }
 
             Utility.Compression.ICompressionHelper compressionHelper = (Utility.Compression.ICompressionHelper)Activator.CreateInstance(compressionHelperType);
             if (compressionHelper == null)
             {
-                Log.Error("Can not create compression helper instance '{0}'.", m_CompressionHelperTypeName);
+                Debug.LogError($"Can not create compression helper instance '{m_CompressionHelperTypeName}'.");
                 return;
             }
 
@@ -160,7 +137,7 @@ namespace UnityGameFramework.Runtime
 
         private void OnLowMemory()
         {
-            Log.Info("Low memory reported...");
+            Debug.Log("Low memory reported...");
 
             ObjectPoolComponent objectPoolComponent = GameEntry.GetComponent<ObjectPoolComponent>();
             if (objectPoolComponent != null)

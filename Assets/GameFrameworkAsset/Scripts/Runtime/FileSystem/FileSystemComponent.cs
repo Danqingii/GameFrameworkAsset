@@ -16,7 +16,7 @@ namespace UnityGameFramework.Runtime
     /// 文件系统件。
     /// </summary>
     [DisallowMultipleComponent]
-    [AddComponentMenu("Game Framework/File System")]
+    [AddComponentMenu("GameFramework Asset/File System")]
     public sealed class FileSystemComponent : GameFrameworkComponent
     {
         private IFileSystemManager m_FileSystemManager = null;
@@ -48,22 +48,11 @@ namespace UnityGameFramework.Runtime
             m_FileSystemManager = GameFrameworkEntry.GetModule<IFileSystemManager>();
             if (m_FileSystemManager == null)
             {
-                Log.Fatal("File system manager is invalid.");
+                Debug.LogError("File system manager is invalid.");
                 return;
             }
 
-            FileSystemHelperBase fileSystemHelper = Helper.CreateHelper(m_FileSystemHelperTypeName, m_CustomFileSystemHelper);
-            if (fileSystemHelper == null)
-            {
-                Log.Error("Can not create fileSystem helper.");
-                return;
-            }
-
-            fileSystemHelper.name = "FileSystem Helper";
-            Transform transform = fileSystemHelper.transform;
-            transform.SetParent(this.transform);
-            transform.localScale = Vector3.one;
-
+            FileSystemHelperBase fileSystemHelper = GetComponentInChildren<FileSystemHelperBase>();
             m_FileSystemManager.SetFileSystemHelper(fileSystemHelper);
         }
 

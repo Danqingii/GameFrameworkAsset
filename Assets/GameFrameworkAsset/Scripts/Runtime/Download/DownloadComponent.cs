@@ -16,7 +16,7 @@ namespace UnityGameFramework.Runtime
     /// 下载组件。
     /// </summary>
     [DisallowMultipleComponent]
-    [AddComponentMenu("Game Framework/Download")]
+    [AddComponentMenu("GameFramework Asset/Download")]
     public sealed class DownloadComponent : GameFrameworkComponent
     {
         private const int DefaultPriority = 0;
@@ -153,7 +153,7 @@ namespace UnityGameFramework.Runtime
             m_DownloadManager = GameFrameworkEntry.GetModule<IDownloadManager>();
             if (m_DownloadManager == null)
             {
-                Log.Fatal("Download manager is invalid.");
+                Debug.LogError("Download manager is invalid.");
                 return;
             }
 
@@ -170,7 +170,7 @@ namespace UnityGameFramework.Runtime
             m_EventComponent = GameEntry.GetComponent<EventComponent>();
             if (m_EventComponent == null)
             {
-                Log.Fatal("Event component is invalid.");
+                Debug.LogError("Event component is invalid.");
                 return;
             }
 
@@ -370,14 +370,14 @@ namespace UnityGameFramework.Runtime
         /// <param name="index">下载代理辅助器索引。</param>
         private void AddDownloadAgentHelper(int index)
         {
-            DownloadAgentHelperBase downloadAgentHelper = Helper.CreateHelper(m_DownloadAgentHelperTypeName, m_CustomDownloadAgentHelper, index);
+            DownloadAgentHelperBase downloadAgentHelper = GameObjectHelper.CreateHelper(m_DownloadAgentHelperTypeName, m_CustomDownloadAgentHelper, index);
             if (downloadAgentHelper == null)
             {
-                Log.Error("Can not create download agent helper.");
+                Debug.LogError("Can not create download agent helper.");
                 return;
             }
 
-            downloadAgentHelper.name = Utility.Text.Format("Download Agent Helper - {0}", index);
+            downloadAgentHelper.name = $"Download Agent Helper - {index}";
             Transform transform = downloadAgentHelper.transform;
             transform.SetParent(m_InstanceRoot);
             transform.localScale = Vector3.one;
@@ -402,7 +402,7 @@ namespace UnityGameFramework.Runtime
 
         private void OnDownloadFailure(object sender, GameFramework.Download.DownloadFailureEventArgs e)
         {
-            Log.Warning("Download failure, download serial id '{0}', download path '{1}', download uri '{2}', error message '{3}'.", e.SerialId, e.DownloadPath, e.DownloadUri, e.ErrorMessage);
+            Debug.LogWarning($"Download failure, download serial id '{e.SerialId}', download path '{e.DownloadPath}', download uri '{e.DownloadUri}', error message '{e.ErrorMessage}'.");
             m_EventComponent.Fire(this, DownloadFailureEventArgs.Create(e));
         }
     }

@@ -144,7 +144,7 @@ namespace UnityGameFramework.Runtime
         {
             if (m_LoadResourceAgentHelperReadFileCompleteEventHandler == null || m_LoadResourceAgentHelperUpdateEventHandler == null || m_LoadResourceAgentHelperErrorEventHandler == null)
             {
-                Log.Fatal("Load resource agent helper handler is invalid.");
+                Debug.LogError("Load resource agent helper handler is invalid.");
                 return;
             }
 
@@ -162,7 +162,7 @@ namespace UnityGameFramework.Runtime
 #if UNITY_5_3_5 || UNITY_5_3_6 || UNITY_5_3_7 || UNITY_5_3_8 || UNITY_5_4_OR_NEWER
             if (m_LoadResourceAgentHelperReadFileCompleteEventHandler == null || m_LoadResourceAgentHelperUpdateEventHandler == null || m_LoadResourceAgentHelperErrorEventHandler == null)
             {
-                Log.Fatal("Load resource agent helper handler is invalid.");
+                Debug.LogError("Load resource agent helper handler is invalid.");
                 return;
             }
 
@@ -183,7 +183,7 @@ namespace UnityGameFramework.Runtime
         {
             if (m_LoadResourceAgentHelperReadBytesCompleteEventHandler == null || m_LoadResourceAgentHelperUpdateEventHandler == null || m_LoadResourceAgentHelperErrorEventHandler == null)
             {
-                Log.Fatal("Load resource agent helper handler is invalid.");
+                Debug.LogError("Load resource agent helper handler is invalid.");
                 return;
             }
 
@@ -209,7 +209,7 @@ namespace UnityGameFramework.Runtime
         {
             if (m_LoadResourceAgentHelperReadBytesCompleteEventHandler == null || m_LoadResourceAgentHelperUpdateEventHandler == null || m_LoadResourceAgentHelperErrorEventHandler == null)
             {
-                Log.Fatal("Load resource agent helper handler is invalid.");
+                Debug.LogError("Load resource agent helper handler is invalid.");
                 return;
             }
 
@@ -227,7 +227,7 @@ namespace UnityGameFramework.Runtime
         {
             if (m_LoadResourceAgentHelperParseBytesCompleteEventHandler == null || m_LoadResourceAgentHelperUpdateEventHandler == null || m_LoadResourceAgentHelperErrorEventHandler == null)
             {
-                Log.Fatal("Load resource agent helper handler is invalid.");
+                Debug.LogError("Load resource agent helper handler is invalid.");
                 return;
             }
 
@@ -245,7 +245,7 @@ namespace UnityGameFramework.Runtime
         {
             if (m_LoadResourceAgentHelperLoadCompleteEventHandler == null || m_LoadResourceAgentHelperUpdateEventHandler == null || m_LoadResourceAgentHelperErrorEventHandler == null)
             {
-                Log.Fatal("Load resource agent helper handler is invalid.");
+                Debug.LogError("Load resource agent helper handler is invalid.");
                 return;
             }
 
@@ -273,7 +273,7 @@ namespace UnityGameFramework.Runtime
                 int sceneNamePositionEnd = assetName.LastIndexOf('.');
                 if (sceneNamePositionStart <= 0 || sceneNamePositionEnd <= 0 || sceneNamePositionStart > sceneNamePositionEnd)
                 {
-                    LoadResourceAgentHelperErrorEventArgs loadResourceAgentHelperErrorEventArgs = LoadResourceAgentHelperErrorEventArgs.Create(LoadResourceStatus.AssetError, Utility.Text.Format("Scene name '{0}' is invalid.", assetName));
+                    LoadResourceAgentHelperErrorEventArgs loadResourceAgentHelperErrorEventArgs = LoadResourceAgentHelperErrorEventArgs.Create(LoadResourceStatus.AssetError, $"Scene name '{assetName}' is invalid.");
                     m_LoadResourceAgentHelperErrorEventHandler(this, loadResourceAgentHelperErrorEventArgs);
                     ReferencePool.Release(loadResourceAgentHelperErrorEventArgs);
                     return;
@@ -406,7 +406,7 @@ namespace UnityGameFramework.Runtime
 #else
                         isError = m_UnityWebRequest.isError;
 #endif
-                        LoadResourceAgentHelperErrorEventArgs loadResourceAgentHelperErrorEventArgs = LoadResourceAgentHelperErrorEventArgs.Create(LoadResourceStatus.NotExist, Utility.Text.Format("Can not load asset bundle '{0}' with error message '{1}'.", m_BytesFullPath, isError ? m_UnityWebRequest.error : null));
+                        LoadResourceAgentHelperErrorEventArgs loadResourceAgentHelperErrorEventArgs = LoadResourceAgentHelperErrorEventArgs.Create(LoadResourceStatus.NotExist, $"Can not load asset bundle '{m_BytesFullPath}' with error message '{(isError ? m_UnityWebRequest.error : null)}'.");
                         m_LoadResourceAgentHelperErrorEventHandler(this, loadResourceAgentHelperErrorEventArgs);
                         ReferencePool.Release(loadResourceAgentHelperErrorEventArgs);
                     }
@@ -476,7 +476,7 @@ namespace UnityGameFramework.Runtime
                     }
                     else
                     {
-                        LoadResourceAgentHelperErrorEventArgs loadResourceAgentHelperErrorEventArgs = LoadResourceAgentHelperErrorEventArgs.Create(LoadResourceStatus.NotExist, Utility.Text.Format("Can not load asset bundle from file '{0}' which is not a valid asset bundle.", m_FileName == null ? m_FileFullPath : Utility.Text.Format("{0} | {1}", m_FileFullPath, m_FileName)));
+                        LoadResourceAgentHelperErrorEventArgs loadResourceAgentHelperErrorEventArgs = LoadResourceAgentHelperErrorEventArgs.Create(LoadResourceStatus.NotExist, $"Can not load asset bundle from file '{(m_FileName == null ? m_FileFullPath : $"{m_FileFullPath} | {m_FileName}")}' which is not a valid asset bundle.");
                         m_LoadResourceAgentHelperErrorEventHandler(this, loadResourceAgentHelperErrorEventArgs);
                         ReferencePool.Release(loadResourceAgentHelperErrorEventArgs);
                     }
@@ -544,7 +544,7 @@ namespace UnityGameFramework.Runtime
                     }
                     else
                     {
-                        LoadResourceAgentHelperErrorEventArgs loadResourceAgentHelperErrorEventArgs = LoadResourceAgentHelperErrorEventArgs.Create(LoadResourceStatus.AssetError, Utility.Text.Format("Can not load asset '{0}' from asset bundle which is not exist.", m_AssetName));
+                        LoadResourceAgentHelperErrorEventArgs loadResourceAgentHelperErrorEventArgs = LoadResourceAgentHelperErrorEventArgs.Create(LoadResourceStatus.AssetError, $"Can not load asset '{m_AssetName}' from asset bundle which is not exist.");
                         m_LoadResourceAgentHelperErrorEventHandler(this, loadResourceAgentHelperErrorEventArgs);
                         ReferencePool.Release(loadResourceAgentHelperErrorEventArgs);
                     }
@@ -577,7 +577,7 @@ namespace UnityGameFramework.Runtime
                     }
                     else
                     {
-                        LoadResourceAgentHelperErrorEventArgs loadResourceAgentHelperErrorEventArgs = LoadResourceAgentHelperErrorEventArgs.Create(LoadResourceStatus.AssetError, Utility.Text.Format("Can not load scene asset '{0}' from asset bundle.", m_AssetName));
+                        LoadResourceAgentHelperErrorEventArgs loadResourceAgentHelperErrorEventArgs = LoadResourceAgentHelperErrorEventArgs.Create(LoadResourceStatus.AssetError, $"Can not load scene asset '{m_AssetName}' from asset bundle.");
                         m_LoadResourceAgentHelperErrorEventHandler(this, loadResourceAgentHelperErrorEventArgs);
                         ReferencePool.Release(loadResourceAgentHelperErrorEventArgs);
                     }

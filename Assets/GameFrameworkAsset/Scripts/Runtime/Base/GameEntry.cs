@@ -77,7 +77,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="shutdownType">关闭游戏框架类型。</param>
         public static void Shutdown(ShutdownType shutdownType)
         {
-            Log.Info("Shutdown Game Framework ({0})...", shutdownType);
+            Debug.Log($"Shutdown Game Framework ({shutdownType})...");
             BaseComponent baseComponent = GetComponent<BaseComponent>();
             if (baseComponent != null)
             {
@@ -97,15 +97,6 @@ namespace UnityGameFramework.Runtime
                 SceneManager.LoadScene(GameFrameworkSceneId);
                 return;
             }
-
-            if (shutdownType == ShutdownType.Quit)
-            {
-                Application.Quit();
-#if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
-#endif
-                return;
-            }
         }
 
         /// <summary>
@@ -116,7 +107,7 @@ namespace UnityGameFramework.Runtime
         {
             if (gameFrameworkComponent == null)
             {
-                Log.Error("Game Framework component is invalid.");
+                Debug.LogError("Game Framework component is invalid.");
                 return;
             }
 
@@ -127,7 +118,7 @@ namespace UnityGameFramework.Runtime
             {
                 if (current.Value.GetType() == type)
                 {
-                    Log.Error("Game Framework component type '{0}' is already exist.", type.FullName);
+                    Debug.LogError($"Game Framework component type '{type.FullName}' is already exist.");
                     return;
                 }
 

@@ -8,6 +8,7 @@
 using GameFramework;
 using GameFramework.Download;
 using System;
+using UnityEngine;
 #if UNITY_5_4_OR_NEWER
 using UnityEngine.Networking;
 #else
@@ -102,7 +103,7 @@ namespace UnityGameFramework.Runtime
         {
             if (m_DownloadAgentHelperUpdateBytesEventHandler == null || m_DownloadAgentHelperUpdateLengthEventHandler == null || m_DownloadAgentHelperCompleteEventHandler == null || m_DownloadAgentHelperErrorEventHandler == null)
             {
-                Log.Fatal("Download agent helper handler is invalid.");
+                Debug.LogError("Download agent helper handler is invalid.");
                 return;
             }
 
@@ -125,12 +126,12 @@ namespace UnityGameFramework.Runtime
         {
             if (m_DownloadAgentHelperUpdateBytesEventHandler == null || m_DownloadAgentHelperUpdateLengthEventHandler == null || m_DownloadAgentHelperCompleteEventHandler == null || m_DownloadAgentHelperErrorEventHandler == null)
             {
-                Log.Fatal("Download agent helper handler is invalid.");
+                Debug.LogError("Download agent helper handler is invalid.");
                 return;
             }
 
             m_UnityWebRequest = new UnityWebRequest(downloadUri);
-            m_UnityWebRequest.SetRequestHeader("Range", Utility.Text.Format("bytes={0}-", fromPosition));
+            m_UnityWebRequest.SetRequestHeader("Range", $"bytes={fromPosition}-");
             m_UnityWebRequest.downloadHandler = new DownloadHandler(this);
 #if UNITY_2017_2_OR_NEWER
             m_UnityWebRequest.SendWebRequest();
@@ -150,12 +151,12 @@ namespace UnityGameFramework.Runtime
         {
             if (m_DownloadAgentHelperUpdateBytesEventHandler == null || m_DownloadAgentHelperUpdateLengthEventHandler == null || m_DownloadAgentHelperCompleteEventHandler == null || m_DownloadAgentHelperErrorEventHandler == null)
             {
-                Log.Fatal("Download agent helper handler is invalid.");
+                Debug.LogError("Download agent helper handler is invalid.");
                 return;
             }
 
             m_UnityWebRequest = new UnityWebRequest(downloadUri);
-            m_UnityWebRequest.SetRequestHeader("Range", Utility.Text.Format("bytes={0}-{1}", fromPosition, toPosition));
+            m_UnityWebRequest.SetRequestHeader("Range", $"bytes={fromPosition}-{toPosition}");
             m_UnityWebRequest.downloadHandler = new DownloadHandler(this);
 #if UNITY_2017_2_OR_NEWER
             m_UnityWebRequest.SendWebRequest();
